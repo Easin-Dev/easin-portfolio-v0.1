@@ -1,17 +1,17 @@
-import Image from "next/image";
-import Navbar from "../components/Navbar.jsx";
-import HeroSection from "@/components/HeroSection.jsx";
-import AboutSection from "@/components/About.jsx";
-import SkillsSection from "@/components/Skill.jsx";
-import ProjectsSection from "@/components/Projects.jsx";
+import AboutSection from "@/components/About";
 import AgencyServicesSection from "@/components/AgencyServices.jsx";
+import ContactSection from "@/components/Contact.jsx";
+import HeroSection from "@/components/HeroSection";
+import Navbar from "@/components/Navbar";
+import ProjectsSection from "@/components/Projects";
+import ScrollToTop from "@/components/ScrollToTop";
+import SkillsSection from "@/components/Skill";
 import TestimonialsSection from "@/components/Testimonials.jsx";
 import WorkflowSection from "@/components/WorkflowSection.jsx";
-import ContactSection from "@/components/Contact.jsx";
 
 export default function Home() {
   return (
-    <div>
+    <div className="relative">
       <Navbar />
       <HeroSection />
       <AboutSection />
@@ -21,6 +21,9 @@ export default function Home() {
       <TestimonialsSection />
       <WorkflowSection />
       <ContactSection />
+      
+      {/* Scroll To Top Button added here */}
+      <ScrollToTop />
     </div>
   );
 }
