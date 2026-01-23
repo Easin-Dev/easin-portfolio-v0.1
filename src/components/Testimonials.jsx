@@ -1,220 +1,139 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Quote, Star, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Quote, Star, ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
 
 // --- Testimonials Data ---
 const TESTIMONIALS = [
     {
-        quote: "The team delivered a complex e-commerce platform three weeks ahead of schedule. Their MERN stack expertise and proactive communication were truly outstanding.",
+        quote: "The team delivered a complex e-commerce platform three weeks ahead of schedule. Their MERN stack expertise was truly outstanding.",
         clientName: "Alex R.",
         clientTitle: "CTO, GlobalTech Solutions",
         rating: 5,
-        avatarUrl: "https://placehold.co/100x100/A3A3A3/FFFFFF?text=AR"
+        avatarUrl: "https://i.postimg.cc/85zXp6kX/ecommerce.jpg"
     },
     {
-        quote: "We saw a 40% increase in lead conversion after they redesigned our marketing site. The level of detail and commitment to performance optimization was impressive.",
+        quote: "We saw a 40% increase in lead conversion after they redesigned our marketing site. The level of performance optimization was impressive.",
         clientName: "Sarah K.",
         clientTitle: "Marketing Director, Innovate Now",
         rating: 5,
-        avatarUrl: "https://placehold.co/100x100/9CA3AF/FFFFFF?text=SK"
+        avatarUrl: "https://i.postimg.cc/9f4S9v9S/chat.jpg"
     },
     {
-        quote: "Their cloud deployment strategy saved us thousands monthly on hosting costs. Highly reliable and exceptional technical leadership.",
+        quote: "Their cloud deployment strategy saved us thousands monthly. Highly reliable and exceptional technical leadership.",
         clientName: "Michael J.",
         clientTitle: "CEO, DataStream Analytics",
         rating: 5,
-        avatarUrl: "https://placehold.co/100x100/6B7280/FFFFFF?text=MJ"
-    },
-    {
-        quote: "Working with them was a breeze. They quickly grasped our vision and executed flawlessly on the mobile application design and development.",
-        clientName: "Jenna C.",
-        clientTitle: "Product Manager, TechHub",
-        rating: 5,
-        avatarUrl: "https://placehold.co/100x100/4B5563/FFFFFF?text=JC"
-    },
+        avatarUrl: "https://i.postimg.cc/7Z9Zz9Zz/ai.jpg"
+    }
 ];
 
 const TestimonialsSection = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isTransitioning, setIsTransitioning] = useState(false); // New state for fade effect
-    const [slideDirection, setSlideDirection] = useState(null); // New state for slide effect
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
-    const handleTransition = (newIndex, direction) => {
-        if (isTransitioning) return; // Prevent rapid clicking
-
-        setIsTransitioning(true); // Start fade-out
-        setSlideDirection(direction); // Set slide direction
-
-        // Step 1: Fade out (300ms duration)
+    const handleNext = () => {
+        if (isTransitioning) return;
+        setIsTransitioning(true);
         setTimeout(() => {
-            setCurrentIndex(newIndex);
-            
-            // Step 2: Update content, then start fade-in (after a small delay)
-            setTimeout(() => {
-                setIsTransitioning(false); // End fade-in
-                setSlideDirection(null); // Reset slide direction
-            }, 50); // Small delay to ensure state update takes effect
-        }, 300); // Matches transition-opacity duration below
+            setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+            setIsTransitioning(false);
+        }, 400);
     };
 
-    const nextTestimonial = () => {
-        const newIndex = (currentIndex + 1) % TESTIMONIALS.length;
-        handleTransition(newIndex, 'left');
+    const handlePrev = () => {
+        if (isTransitioning) return;
+        setIsTransitioning(true);
+        setTimeout(() => {
+            setCurrentIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+            setIsTransitioning(false);
+        }, 400);
     };
 
-    const prevTestimonial = () => {
-        const newIndex = (currentIndex - 1 + TESTIMONIALS.length) % TESTIMONIALS.length;
-        handleTransition(newIndex, 'right');
-    };
-
-    // Liquid Glass classes for background and card
     const liquidGlassBackground = {
-        backgroundColor: 'hsla(0, 0%, 100%, 1)',
+        backgroundColor: '#ffffff',
         backgroundImage: `
-            radial-gradient(at 100% 0%, hsla(220, 100%, 64%, 0.1) 0px, transparent 50%),
-            radial-gradient(at 0% 100%, hsla(170, 66%, 56%, 0.1) 0px, transparent 50%)
+            radial-gradient(at 100% 0%, hsla(220, 100%, 95%, 1) 0px, transparent 50%),
+            radial-gradient(at 0% 100%, hsla(170, 100%, 95%, 1) 0px, transparent 50%)
         `,
     };
 
-    const liquidGlassCardClasses = "backdrop-filter backdrop-blur-xl bg-white/90 border border-white/90 shadow-2xl rounded-3xl transition duration-300";
-
-    const StarRating = ({ rating }) => (
-        <div className="flex items-center text-amber-400">
-            {[...Array(5)].map((_, i) => (
-                <Star
-                    key={i}
-                    className={`h-5 w-5 ${i < rating ? 'fill-current text-amber-400' : 'text-gray-300'}`}
-                />
-            ))}
-        </div>
-    );
-
-    const currentTestimonial = TESTIMONIALS[currentIndex];
-    // Get the next two testimonials for the stacked effect
-    const nextIndex1 = (currentIndex + 1) % TESTIMONIALS.length;
-    const nextIndex2 = (currentIndex + 2) % TESTIMONIALS.length;
-
-    // Adjusted translations for a more prominent "peeking out from the right corner" effect
-    const stackedTestimonials = [
-        // Card 3 (furthest back): More shift
-        { index: nextIndex2, z: 10, scale: 'scale-[0.88]', opacity: 'opacity-50', translate: 'translate-x-16 translate-y-6 lg:translate-x-32 lg:translate-y-12' },
-        // Card 2 (middle back): Less shift
-        { index: nextIndex1, z: 20, scale: 'scale-[0.94]', opacity: 'opacity-75', translate: 'translate-x-8 translate-y-3 lg:translate-x-16 lg:translate-y-6' },
-    ];
-
-    // Dynamic classes for smooth slide and fade
-    const slideClass = isTransitioning 
-        ? (slideDirection === 'left' ? '-translate-x-4' : 'translate-x-4') // Slide out slightly
-        : (slideDirection === 'left' || slideDirection === 'right' ? 'translate-x-0' : ''); // Slide back in
-
-    const transitionClass = `transition-all duration-300 ease-in-out ${isTransitioning ? 'opacity-0' : 'opacity-100'} ${slideClass}`;
-
-
     return (
-        <section className="py-24 sm:py-32 overflow-hidden relative" style={{ minHeight: '100vh' }}>
-            {/* Background Gradient */}
-            <div
-                className="absolute inset-0 z-0 opacity-100"
-                style={liquidGlassBackground}
-            />
-
-            {/* Content Container */}
+        <section className="py-24 sm:py-32 overflow-hidden relative" style={liquidGlassBackground}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
 
                 {/* Header */}
-                <div className="mx-auto max-w-3xl lg:text-center mb-16">
-                    <p className={`text-base font-semibold leading-7 uppercase tracking-widest inline-flex items-center justify-center backdrop-filter backdrop-blur-sm bg-white/70 px-4 py-2 rounded-full border border-white/90 shadow-lg text-gray-800`}>
-                        <Quote className="h-5 w-5 mr-2 text-indigo-500" /> Client Success Stories
-                    </p>
-                    <h2 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-                        What Our Partners Say
+                <div className="mx-auto max-w-3xl text-center mb-20">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-gray-100 shadow-sm backdrop-blur-md mb-6 animate-fade-in">
+                        <Sparkles className="h-4 w-4 text-amber-500" />
+                        <span className="text-xs font-bold tracking-widest text-gray-800 uppercase">Trust & Success</span>
+                    </span>
+                    <h2 className="text-4xl font-black tracking-tight text-gray-900 sm:text-6xl mb-6 leading-tight">
+                        What Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Partners Say</span>
                     </h2>
-                    <p className="mt-6 text-lg leading-8 text-gray-600">
-                        Our work is validated by the real-world success and glowing feedback from our amazing clients.
-                    </p>
                 </div>
 
-                {/* Testimonial Slider / Stacked Cards */}
-                <div className="relative mx-auto max-w-4xl h-[450px] lg:h-[400px]">
-                    
-                    {/* Stacked Back Cards */}
-                    {stackedTestimonials.map((stack, i) => (
-                        <div
-                            key={TESTIMONIALS[stack.index].clientName}
-                            // Increased padding/margin on the main card to ensure visibility
-                            className={`absolute inset-0 p-8 rounded-3xl ${liquidGlassCardClasses} transform origin-top-left pointer-events-none transition-all duration-700 ease-out 
-                                ${stack.scale} ${stack.opacity} ${stack.translate} z-${stack.z}`}
-                        >
-                            <div className="flex flex-col h-full justify-between">
-                                <p className="text-gray-700 text-lg italic text-opacity-0">
-                                    {/* Invisible content to maintain height */}
-                                    "{TESTIMONIALS[stack.index].quote.substring(0, 150)}..." 
-                                </p>
-                                {/* Client Info Placeholder */}
-                                <div className="mt-4 pt-4 border-t border-gray-200 text-opacity-0">
-                                    <StarRating rating={TESTIMONIALS[stack.index].rating} />
-                                    <p className="text-xl font-semibold text-gray-900 mt-2">{TESTIMONIALS[stack.index].clientName}</p>
+                {/* Main Card Container */}
+                <div className="relative mx-auto max-w-5xl px-4">
+
+                    {/* Background Stacked Cards Effect */}
+                    <div className="absolute top-4 left-8 right-8 bottom-0 bg-white/40 border border-white/60 rounded-[3rem] -z-10 blur-sm translate-y-4 lg:translate-y-8 lg:left-16 lg:right-16"></div>
+                    <div className="absolute top-2 left-4 right-4 bottom-0 bg-white/60 border border-white/60 rounded-[3rem] -z-20 translate-y-2 lg:translate-y-4 lg:left-8 lg:right-8"></div>
+
+                    {/* Active Testimonial Card */}
+                    <div className={`relative z-30 transition-all duration-500 ease-in-out ${isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+                        <div className="grid lg:grid-cols-5 bg-white/40 backdrop-blur-3xl border border-white/80 rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] overflow-hidden">
+
+                            {/* Left Side: Profile */}
+                            <div className="lg:col-span-2 p-12 bg-gradient-to-br from-indigo-600 to-blue-700 flex flex-col items-center justify-center text-center text-white relative">
+                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+                                <div className="relative">
+                                    <div className="w-28 h-28 rounded-full border-4 border-white/20 p-1 mb-6 relative group overflow-hidden">
+                                        <img
+                                            src={TESTIMONIALS[currentIndex].avatarUrl}
+                                            alt={TESTIMONIALS[currentIndex].clientName}
+                                            className="w-full h-full rounded-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                    </div>
+                                    <h4 className="text-3xl font-black mb-1">{TESTIMONIALS[currentIndex].clientName}</h4>
+                                    <p className="text-sm font-medium text-indigo-100/80 mb-4">{TESTIMONIALS[currentIndex].clientTitle}</p>
+                                    <div className="flex gap-1">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
 
-                    {/* Front Testimonial Card - Now with smooth transition logic */}
-                    <div
-                        key={currentTestimonial.clientName + currentIndex} // Key must change for new content to mount
-                        className={`absolute inset-0 p-0 rounded-3xl z-30 ${liquidGlassCardClasses} flex flex-col lg:flex-row ${transitionClass}`}
-                    >
-                        {/* Left Side: Avatar/Client Info */}
-                        <div className="w-full lg:w-1/3 bg-indigo-500/90 rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none p-8 flex flex-col items-center justify-center text-white text-center">
-                            <img 
-                                src={currentTestimonial.avatarUrl} 
-                                alt={currentTestimonial.clientName}
-                                className="h-24 w-24 rounded-full border-4 border-white object-cover shadow-xl"
-                                onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/100x100/4B5563/FFFFFF?text=" + currentTestimonial.clientName.substring(0, 2); }}
-                            />
-                            <p className="text-3xl font-bold mt-4">{currentTestimonial.clientName}</p>
-                            <p className="text-base font-medium opacity-80 mt-1">{currentTestimonial.clientTitle}</p>
-                            <div className="mt-3">
-                                <StarRating rating={currentTestimonial.rating} />
+                            {/* Right Side: Quote */}
+                            <div className="lg:col-span-3 p-12 lg:p-16 flex flex-col justify-center bg-white/30 relative">
+                                <Quote className="h-16 w-16 text-indigo-100 absolute top-8 right-8 -z-10 rotate-180" />
+                                <p className="text-2xl lg:text-3xl font-medium text-gray-800 leading-relaxed italic mb-8 relative">
+                                    "{TESTIMONIALS[currentIndex].quote}"
+                                </p>
+                                <div className="h-px w-20 bg-indigo-600 mb-6"></div>
+                                <span className="text-xs font-black uppercase tracking-widest text-indigo-600">Client Statement</span>
                             </div>
-                        </div>
-
-                        {/* Right Side: Quote */}
-                        <div className="w-full lg:w-2/3 p-8 flex flex-col justify-center">
-                            <Quote className="h-10 w-10 text-indigo-400 mb-6" />
-
-                            <p className="text-gray-800 text-xl italic mb-8">
-                                "{currentTestimonial.quote}"
-                            </p>
-
-                            <a
-                                href="#contact"
-                                className="mt-4 w-fit px-6 py-2 bg-indigo-600 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-700 transition duration-200"
-                            >
-                                Read Full Case Study
-                            </a>
                         </div>
                     </div>
 
                     {/* Navigation Buttons */}
-                    <div className="absolute inset-y-0 w-full flex items-center justify-between pointer-events-none z-40 px-4">
+                    <div className="flex justify-center gap-4 mt-12">
                         <button
-                            onClick={prevTestimonial}
-                            className="p-3 bg-white/70 backdrop-blur-lg border border-white/90 rounded-full shadow-lg text-gray-700 hover:bg-white transition duration-200 pointer-events-auto"
-                            aria-label="Previous Testimonial"
+                            onClick={handlePrev}
+                            className="p-4 rounded-2xl bg-white shadow-xl hover:bg-gray-50 border border-gray-100 text-gray-900 transition-all hover:-translate-x-1"
+                            aria-label="Previous"
                         >
                             <ArrowLeft className="h-6 w-6" />
                         </button>
                         <button
-                            onClick={nextTestimonial}
-                            className="p-3 bg-white/70 backdrop-blur-lg border border-white/90 rounded-full shadow-lg text-gray-700 hover:bg-white transition duration-200 pointer-events-auto"
-                            aria-label="Next Testimonial"
+                            onClick={handleNext}
+                            className="p-4 rounded-2xl bg-gray-900 shadow-xl hover:bg-black text-white transition-all hover:translate-x-1"
+                            aria-label="Next"
                         >
                             <ArrowRight className="h-6 w-6" />
                         </button>
                     </div>
-
                 </div>
             </div>
         </section>

@@ -1,215 +1,138 @@
-"use client"
+"use client";
+
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Linkedin, Github, MessageSquare, Send, Calendar, Briefcase } from 'lucide-react'; // Briefcase icon added
+import { Mail, Phone, MapPin, Linkedin, Github, MessageSquare, Send, Calendar, Briefcase, Sparkles, ArrowRight } from 'lucide-react';
 
-// --- Style Definitions for Consistency with other Sections ---
-// Common classes for the Liquid Glass effect
-const liquidGlassCardClasses = "backdrop-filter backdrop-blur-xl bg-white/10 border border-white/30 shadow-2xl transition duration-500 hover:bg-white/20";
-
-// Mesh Gradient Background Style (for Section BG)
-const meshGradientBackground = {
-    backgroundColor: 'hsla(0, 0%, 100%, 1)',
-    backgroundImage: `
-        radial-gradient(at 100% 0%, hsla(45, 100%, 64%, 0.62) 0px, transparent 50%), /* Top Right (Yellow/Orange) */
-        radial-gradient(at 0% 0%, hsla(255, 66%, 56%, 0.7) 0px, transparent 50%) /* Top Left (Purple/Blue) */
-    `,
-};
-// --- End Style Definitions ---
-
-// Contact Data - 'Schedule a Call' item updated to a button type with 'Book a Session' text
 const CONTACT_INFO = [
-    { icon: Mail, label: 'Email Address', value: 'hello@agency.com', type: 'info' },
-    { icon: Phone, label: 'Phone Number', value: '+880 123 456 789', type: 'info' },
-    { icon: MapPin, label: 'Office Address', value: 'Dhaka, Bangladesh', type: 'info' },
-    // Updated for 'Book a Session' button
-    { icon: Calendar, label: 'Schedule a Call', value: 'Book a Session', link: '#', type: 'button' },
+    { icon: Mail, label: 'Email Address', value: 'hello@agency.com', link: 'mailto:hello@agency.com' },
+    { icon: Phone, label: 'Phone Number', value: '+880 123 456 789', link: 'tel:+880123456789' },
+    { icon: MapPin, label: 'Office Address', value: 'Dhaka, Bangladesh', link: '#' },
 ];
 
-// Social Links - Fiverr and Freelance.com added
 const SOCIAL_LINKS = [
-    { icon: Linkedin, label: 'LinkedIn', link: 'https://linkedin.com/in/yourprofile' },
-    { icon: Github, label: 'GitHub', link: 'https://github.com/yourprofile' },
-    // New freelance platform links
-    { icon: Briefcase, label: 'Fiverr', link: 'https://www.fiverr.com/yourprofile' },
-    { icon: Briefcase, label: 'Freelancer.com', link: 'https://www.freelancer.com/yourprofile' },
+    { icon: Linkedin, label: 'LinkedIn', link: '#', color: 'hover:bg-blue-600' },
+    { icon: Github, label: 'GitHub', link: '#', color: 'hover:bg-gray-800' },
+    { icon: Briefcase, label: 'Fiverr', link: '#', color: 'hover:bg-emerald-600' },
+    { icon: MessageSquare, label: 'Upwork', link: '#', color: 'hover:bg-green-600' },
 ];
-
-// Custom Input Field Component for Liquid Glass style
-const GlassInput = ({ id, label, type = 'text', required = false }) => (
-    <div className="relative z-0 w-full mb-6 group">
-        <input
-            type={type}
-            name={id}
-            id={id}
-            // Adjusted input style for better contrast on light glass background
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-400 appearance-none dark:text-gray-900 dark:border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required={required}
-        />
-        <label
-            htmlFor={id}
-            // Adjusted label color for better visibility
-            className="peer-focus:font-medium absolute text-sm text-gray-600 dark:text-gray-600 duration-300 transform -translate-y-6 scale-75 top-3 z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-            {label}
-            {required && <span className="text-red-500">*</span>}
-        </label>
-    </div>
-);
-
-// Custom Textarea Component for Liquid Glass style
-const GlassTextarea = ({ id, label, required = false }) => (
-    <div className="relative z-0 w-full mb-6 group">
-        <textarea
-            name={id}
-            id={id}
-            rows="4"
-            // Adjusted textarea style for better contrast on light glass background
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-400 appearance-none dark:text-gray-900 dark:border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required={required}
-        ></textarea>
-        <label
-            htmlFor={id}
-            // Adjusted label color for better visibility
-            className="peer-focus:font-medium absolute text-sm text-gray-600 dark:text-gray-600 duration-300 transform -translate-y-6 scale-75 top-3 z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >
-            {label}
-            {required && <span className="text-red-500">*</span>}
-        </label>
-    </div>
-);
-
 
 const ContactSection = () => {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Here you would typically send data to a backend service or email
-        console.log('Form Submitted:', formData);
-        // Using alert() is forbidden, using custom message box logic instead
-        // alert('Thank you for your message! We will get back to you soon.'); 
-        console.log('Thank you for your message! We will get back to you soon.');
-        setFormData({}); // Clear form
-    };
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const meshGradientBackground = {
+        backgroundColor: '#ffffff',
+        backgroundImage: `
+            radial-gradient(at 100% 0%, hsla(45, 100%, 95%, 1) 0px, transparent 50%),
+            radial-gradient(at 0% 0%, hsla(255, 100%, 95%, 1) 0px, transparent 50%)
+        `,
     };
 
     return (
-        <section id="contact" className="min-h-screen py-24 sm:py-32 overflow-hidden relative bg-white">
-            {/* Mesh Gradient Background Layer */}
-            <div 
-                className="absolute top-0 left-0 w-full h-full z-0 opacity-70" 
-                style={meshGradientBackground} 
-            />
+        <section id="contact" className="py-24 sm:py-32 relative overflow-hidden bg-white" style={meshGradientBackground}>
+            {/* Decorative Orbs */}
+            <div className="absolute top-1/4 -right-20 w-80 h-80 bg-blue-50 rounded-full blur-3xl opacity-60"></div>
+            <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-purple-50 rounded-full blur-3xl opacity-60"></div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-5xl font-extrabold text-gray-900 mb-4">
-                        Let's Talk Business
+            <div className="mx-auto max-w-7xl px-6 relative z-10">
+
+                {/* Header */}
+                <div className="mx-auto max-w-3xl text-center mb-20">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-gray-100 shadow-sm backdrop-blur-md mb-6">
+                        <Sparkles className="h-4 w-4 text-amber-500" />
+                        <span className="text-xs font-black tracking-widest text-gray-800 uppercase">Get In Touch</span>
+                    </span>
+                    <h2 className="text-4xl font-black tracking-tight text-gray-900 sm:text-7xl mb-6 leading-[0.9]">
+                        Let's Talk <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Business</span>
                     </h2>
-                    <p className="text-xl text-gray-700 max-w-2xl mx-auto">
-                        Ready to start your project? Drop us a line, and let's build something amazing together.
+                    <p className="text-lg leading-relaxed text-gray-500 max-w-2xl mx-auto font-medium">
+                        Ready to elevate your digital presence? We're here to turn your complex ideas into market-leading reality.
                     </p>
                 </div>
 
-                <div className="flex flex-wrap lg:flex-nowrap gap-12">
-                    {/* Left Column: Contact Info & Social Links (Liquid Glass Card) */}
-                    <div className={`w-full lg:w-1/3 p-8 rounded-3xl ${liquidGlassCardClasses} transform hover:scale-[1.01]`}>
-                        <h3 className="text-3xl font-bold text-gray-900 mb-6">
-                            Contact Information
-                        </h3>
+                <div className="grid lg:grid-cols-12 gap-12 items-start">
 
-                        <div className="space-y-6 mb-10">
-                            {CONTACT_INFO.map((item, index) => {
-                                // Check if this item should be rendered as a button
-                                if (item.type === 'button') {
-                                    return (
-                                        <div key={index} className="pt-2"> 
-                                            <a
-                                                href={item.link || '#'}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                // Primary button style
-                                                className="w-full flex items-center justify-center px-4 py-3 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-500 rounded-xl shadow-lg hover:shadow-xl hover:from-purple-700 hover:to-blue-600 transition duration-300 transform hover:-translate-y-0.5"
-                                            >
-                                                <item.icon className="h-5 w-5 mr-3" />
-                                                {item.value} {/* Displays "Book a Session" */}
-                                            </a>
-                                        </div>
-                                    );
-                                }
+                    {/* Left: Contact Details */}
+                    <div className="lg:col-span-5 space-y-8">
+                        <div className="p-10 rounded-[2.5rem] bg-white/40 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                            <h3 className="text-2xl font-black text-gray-900 mb-8 tracking-tight">Contact Information</h3>
 
-                                // Default rendering for contact info links (Email, Phone, Address)
-                                return (
-                                    <a
-                                        key={index}
-                                        href={item.link || (item.label === 'Email Address' ? `mailto:${item.value}` : item.label === 'Phone Number' ? `tel:${item.value.replace(/\s/g, '')}` : '#')}
-                                        target={item.link ? '_blank' : '_self'}
-                                        rel="noopener noreferrer"
-                                        className="flex items-start p-3 rounded-xl transition duration-300 hover:bg-white/70 group"
-                                    >
-                                        <div className="mr-4 mt-1">
-                                            <item.icon className="h-6 w-6 text-purple-600 transition duration-300 group-hover:scale-110" />
+                            <div className="space-y-6">
+                                {CONTACT_INFO.map((item, i) => (
+                                    <a key={i} href={item.link} className="flex items-center gap-5 group">
+                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center border border-gray-100 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                            <item.icon className="h-5 w-5 text-blue-600" />
                                         </div>
                                         <div>
-                                            <p className="font-semibold text-sm text-gray-600">{item.label}</p>
-                                            <p className="text-lg font-medium text-gray-900 group-hover:text-purple-700">
-                                                {item.value}
-                                            </p>
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{item.label}</p>
+                                            <p className="text-gray-900 font-bold group-hover:text-blue-600 transition-colors">{item.value}</p>
                                         </div>
                                     </a>
-                                );
-                            })}
+                                ))}
+                            </div>
+
+                            <div className="mt-12 pt-8 border-t border-gray-100">
+                                <a href="#" className="flex items-center justify-between p-5 rounded-2xl bg-gray-900 text-white hover:bg-blue-600 transition-all duration-500 group">
+                                    <div className="flex items-center gap-4">
+                                        <Calendar className="h-5 w-5 text-blue-300" />
+                                        <span className="font-bold tracking-tight">Book a Strategy Session</span>
+                                    </div>
+                                    <ArrowRight className="h-5 w-5 transform group-hover:translate-x-2 transition-transform" />
+                                </a>
+                            </div>
                         </div>
 
-                        <h3 className="text-3xl font-bold text-gray-900 mb-4 mt-10">
-                            Connect with Us
-                        </h3>
-                        <div className="flex space-x-4">
-                            {SOCIAL_LINKS.map((item, index) => (
-                                <a
-                                    key={index}
-                                    href={item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={item.label}
-                                    className="p-3 rounded-full bg-purple-500/10 text-purple-600 hover:bg-purple-600 hover:text-white transition duration-300 shadow-md"
-                                >
-                                    <item.icon className="h-6 w-6" />
-                                </a>
-                            ))}
+                        {/* Social Links */}
+                        <div className="p-8 rounded-[2rem] bg-white/20 backdrop-blur-md border border-white/40">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-6 text-center lg:text-left px-2">Global Network</p>
+                            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                                {SOCIAL_LINKS.map((social, i) => (
+                                    <a key={i} href={social.link} className={`w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-gray-600 ${social.color} hover:text-white transition-all duration-500 hover:-translate-y-2`}>
+                                        <social.icon className="h-5 w-5" />
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Right Column: Contact Form (Liquid Glass Card) */}
-                    <div className={`w-full lg:w-2/3 p-8 rounded-3xl ${liquidGlassCardClasses} transform hover:scale-[1.005]`}>
-                        <h3 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
-                            Send Us a Message <MessageSquare className="ml-3 h-7 w-7 text-purple-600" />
-                        </h3>
-                        <form onSubmit={handleSubmit} onChange={handleChange} className="space-y-4">
-                            <div className="flex flex-wrap -mx-3">
-                                <div className="w-full md:w-1/2 px-3">
-                                    <GlassInput id="full_name" label="Full Name" required />
-                                </div>
-                                <div className="w-full md:w-1/2 px-3">
-                                    <GlassInput id="email" label="Email Address" type="email" required />
-                                </div>
-                            </div>
-                            <GlassInput id="subject" label="Subject / Project Scope" required />
-                            <GlassTextarea id="message" label="Your Message or Project Details" required />
+                    {/* Right: Contact Form */}
+                    <div className="lg:col-span-7">
+                        <div className="p-10 rounded-[3rem] bg-white/60 backdrop-blur-2xl border border-white shadow-2xl relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/20 to-transparent rounded-full -mr-16 -mt-16 transition-transform duration-1000 group-hover:scale-150"></div>
 
-                            <button
-                                type="submit"
-                                className="w-full flex items-center justify-center px-8 py-3 mt-6 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-blue-500 rounded-full shadow-lg hover:shadow-xl hover:from-purple-700 hover:to-blue-600 transition duration-300 transform hover:-translate-y-0.5"
-                            >
-                                Submit Inquiry
-                                <Send className="ml-3 h-5 w-5" />
-                            </button>
-                        </form>
+                            <h3 className="text-2xl font-black text-gray-900 mb-10 tracking-tight flex items-center gap-3">
+                                Send a Message <MessageSquare className="h-6 w-6 text-purple-600" />
+                            </h3>
+
+                            <form className="space-y-8">
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <div className="relative">
+                                        <input type="text" className="w-full bg-transparent border-b-2 border-gray-200 py-3 focus:border-blue-600 focus:outline-none transition-colors peer font-medium text-gray-900" placeholder=" " />
+                                        <label className="absolute left-0 top-3 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:font-black peer-focus:text-blue-600 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">Full Name</label>
+                                    </div>
+                                    <div className="relative">
+                                        <input type="email" className="w-full bg-transparent border-b-2 border-gray-200 py-3 focus:border-blue-600 focus:outline-none transition-colors peer font-medium text-gray-900" placeholder=" " />
+                                        <label className="absolute left-0 top-3 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:font-black peer-focus:text-blue-600 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">Email Address</label>
+                                    </div>
+                                </div>
+
+                                <div className="relative">
+                                    <input type="text" className="w-full bg-transparent border-b-2 border-gray-200 py-3 focus:border-blue-600 focus:outline-none transition-colors peer font-medium text-gray-900" placeholder=" " />
+                                    <label className="absolute left-0 top-3 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:font-black peer-focus:text-blue-600 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">Project Scope</label>
+                                </div>
+
+                                <div className="relative">
+                                    <textarea rows="4" className="w-full bg-transparent border-b-2 border-gray-200 py-3 focus:border-blue-600 focus:outline-none transition-colors peer font-medium text-gray-900 resize-none" placeholder=" "></textarea>
+                                    <label className="absolute left-0 top-3 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:font-black peer-focus:text-blue-600 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs">Project Details</label>
+                                </div>
+
+                                <button className="w-full group relative inline-flex items-center justify-center px-10 py-5 text-sm font-black uppercase tracking-widest text-white overflow-hidden rounded-2xl bg-gray-900 transition-all duration-300">
+                                    <div className="absolute inset-0 w-0 bg-blue-600 transition-all duration-500 ease-out group-hover:w-full"></div>
+                                    <span className="relative z-10 flex items-center gap-3">
+                                        Launch Inquiry <Send className="h-5 w-5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
