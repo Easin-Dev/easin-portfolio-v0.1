@@ -20,7 +20,9 @@ export default function Home() {
       <AgencyServicesSection />
       <TestimonialsSection />
       <WorkflowSection />
-      <ContactSection />
+      <a href="#contact">
+        <ContactSection />
+      </a>
 
       {/* Scroll To Top Button added here */}
       <ScrollToTop />

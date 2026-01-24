@@ -89,7 +89,7 @@ const Navbar = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-3">
-            <a href="#services" className="px-5 py-2 text-sm font-bold rounded-full text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all">
+            <a href="https://scaleupweb.netlify.app/" className="px-5 py-2 text-sm font-bold rounded-full text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all">
               Agency
             </a>
             <a href="#contact" className="px-5 py-2 text-sm font-bold rounded-full liquid-glass-btn text-blue-600">
