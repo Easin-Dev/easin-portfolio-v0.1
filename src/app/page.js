@@ -12,7 +12,7 @@ import WorkflowSection from "@/components/WorkflowSection.jsx";
 export default function Home() {
   return (
     <div className="relative">
-      <Navbar />
+      
       <HeroSection />
       <AboutSection />
       <SkillsSection />

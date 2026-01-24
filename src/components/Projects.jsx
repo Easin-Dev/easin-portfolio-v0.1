@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Github, Sparkles, ArrowRight } from 'lucide-react';
+import { ExternalLink, Github, Sparkles, ArrowRight, LayoutGrid } from 'lucide-react';
 
 const PERSONAL_PROJECTS = [
     {
@@ -60,7 +60,7 @@ const ProjectsSection = ({ id }) => {
             </div>
 
             <div className="mx-auto max-w-7xl px-6 relative z-10">
-                {/* Header Section - Now Centered */}
+                {/* Header Section */}
                 <div className="max-w-3xl mx-auto text-center mb-20">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-6">
                         <Sparkles className="h-4 w-4 text-blue-600" />
@@ -74,6 +74,7 @@ const ProjectsSection = ({ id }) => {
                     </p>
                 </div>
 
+                {/* Projects List */}
                 <div className="grid grid-cols-1 gap-12">
                     {PERSONAL_PROJECTS.map((project, index) => (
                         <div
@@ -119,6 +120,22 @@ const ProjectsSection = ({ id }) => {
                             </div>
                         </div>
                     ))}
+                </div>
+
+                {/* New: View All Projects Button Section */}
+                <div className="mt-20 flex justify-center">
+                    <a
+                        href="/projects"
+                        className="group relative inline-flex items-center justify-center px-10 py-5 text-sm font-black uppercase tracking-widest text-white overflow-hidden rounded-2xl bg-gray-900 shadow-xl transition-all duration-300 hover:shadow-blue-500/20 active:scale-95"
+                    >
+                        {/* Hover Gradient Overlay */}
+                        <div className="absolute inset-0 w-0 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-500 ease-out group-hover:w-full"></div>
+
+                        <span className="relative z-10 flex items-center gap-3">
+                            View All Projects
+                            <LayoutGrid className="h-5 w-5 transition-transform group-hover:rotate-12" />
+                        </span>
+                    </a>
                 </div>
             </div>
         </section>

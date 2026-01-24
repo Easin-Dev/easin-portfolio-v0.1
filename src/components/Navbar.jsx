@@ -1,24 +1,25 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+// এখানে ArrowRight যোগ করা হয়েছে
+import { ExternalLink, Globe, ArrowRight } from "lucide-react";
 
-// --- Developer Information ---
 const DEVELOPER_NAME = "Easin Arafat";
-const DEVELOPER_TAGLINE = "Developer & Founder, ScaleUp Web";
+const DEVELOPER_TAGLINE = "Full-Stack Web Architect";
 
 const navLinks = [
-  { name: "Skills", url: "#skills" },
-  { name: "Projects", url: "#projects" },
-  { name: "Services", url: "#services" },
-  { name: "About", url: "#about" },
-  { name: "Contact", url: "#contact" },
+  { name: "Services", url: "/services" },
+  { name: "Projects", url: "/projects" },
+  { name: "Blogs", url: "/blogs" },
+  { name: "About", url: "/#about" },
+  { name: "Contact", url: "/#contact" },
 ];
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // স্ক্রল করলে নববারের ব্যাকগ্রাউন্ড কিছুটা পরিবর্তন হবে (UX ভালো করার জন্য)
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -31,109 +32,96 @@ const Navbar = () => {
     <>
       <style jsx="true">{`
         .liquid-glass-nav {
-          background: ${scrolled ? "rgba(255, 255, 255, 0.6)" : "rgba(255, 255, 255, 0.3)"};
-          backdrop-filter: blur(12px) saturate(180%) url(#displacementFilterNavbar);
-          -webkit-backdrop-filter: blur(12px) saturate(180%) url(#displacementFilterNavbar);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-          transition: all 0.3s ease-in-out;
+          background: ${scrolled ? "rgba(255, 255, 255, 0.85)" : "transparent"};
+          backdrop-filter: blur(16px) saturate(180%);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .liquid-glass-btn {
-          background: rgba(59, 130, 246, 0.1);
-          backdrop-filter: blur(5px) url(#displacementFilterNavbar);
-          -webkit-backdrop-filter: blur(5px) url(#displacementFilterNavbar);
-          border: 1px solid rgba(59, 130, 246, 0.3) !important;
-          transition: all 0.3s ease;
-        }
-
-        .liquid-glass-btn:hover {
-          background: rgba(59, 130, 246, 0.2) !important;
-          transform: translateY(-1px);
+        .mobile-menu-container {
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+          transform: ${isMenuOpen ? "translateY(0)" : "translateY(-15px)"};
+          opacity: ${isMenuOpen ? "1" : "0"};
+          pointer-events: ${isMenuOpen ? "auto" : "none"};
         }
       `}</style>
 
-      {/* SVG Filter: এই ফিল্টারটি নববারের ভেতরেই রাখা হয়েছে যাতে অন্য কম্পোনেন্টে ঝামেলা না করে */}
-      <svg className="hidden">
-        <filter id="displacementFilterNavbar">
-          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="1" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
-        </filter>
-      </svg>
-
-      <nav className={`fixed top-0 left-0 w-full z-[1000] liquid-glass-nav ${scrolled ? "h-16 shadow-lg" : "h-20"}`}>
-        <div className="container mx-auto px-4 md:px-8 h-full flex items-center justify-between">
+      <nav className={`fixed top-0 left-0 w-full z-[1000] liquid-glass-nav ${scrolled ? "h-20 shadow-sm border-b border-gray-100" : "h-24"}`}>
+        <div className="container mx-auto px-6 md:px-12 h-full flex items-center justify-between">
 
           {/* Brand Identity */}
           <div className="flex flex-col">
-            <a href="/" className="text-xl md:text-2xl font-black text-blue-600 tracking-tighter leading-none">
+            <Link href="/" className="text-2xl md:text-3xl font-black text-gray-900 tracking-tighter leading-none hover:text-blue-600 transition-colors">
               {DEVELOPER_NAME}
-            </a>
-            <span className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mt-1">
+            </Link>
+            <span className="text-[10px] font-black text-blue-600 uppercase tracking-[0.25em] mt-2">
               {DEVELOPER_TAGLINE}
             </span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-12">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.url}
-                className="text-gray-800 text-sm font-bold hover:text-blue-600 transition-colors relative group"
+                className="relative text-sm font-extrabold uppercase tracking-widest text-gray-800 hover:text-blue-600 transition-all"
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:width-full"></span>
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <a href="https://scaleupweb.netlify.app/" className="px-5 py-2 text-sm font-bold rounded-full text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all">
-              Agency
-            </a>
-            <a href="#contact" className="px-5 py-2 text-sm font-bold rounded-full liquid-glass-btn text-blue-600">
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              href="https://scaleupweb.netlify.app/"
+              target="_blank"
+              className="flex items-center gap-2 px-6 py-3 text-[11px] font-black uppercase tracking-widest rounded-xl bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-600 hover:text-white transition-all duration-300"
+            >
+              <Globe className="h-4 w-4" />
+              ScaleUp Web
+            </Link>
+
+            <Link
+              href="https://www.fiverr.com/easin_dev"
+              target="_blank"
+              className="px-6 py-3 text-[11px] font-black uppercase tracking-widest rounded-xl text-white bg-gray-900 hover:bg-gray-800 shadow-lg transition-all active:scale-95"
+            >
               Hire Me
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-gray-700"
-            aria-label="Toggle menu"
+            className="lg:hidden w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-50 text-gray-900 shadow-sm"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
+            <div className="space-y-1.5">
+              <span className={`block w-6 h-0.5 bg-current transition-all ${isMenuOpen ? "rotate-45 translate-y-2" : ""}`}></span>
+              <span className={`block w-6 h-0.5 bg-current transition-all ${isMenuOpen ? "opacity-0" : ""}`}></span>
+              <span className={`block w-6 h-0.5 bg-current transition-all ${isMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
+            </div>
           </button>
         </div>
 
         {/* Mobile Menu Dropdown */}
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-2xl border-b border-gray-200 shadow-2xl overflow-hidden">
-            <div className="flex flex-col p-6 space-y-4">
+        <div className="lg:hidden absolute top-full left-0 w-full px-4 pt-4 mobile-menu-container">
+          <div className="bg-white/95 backdrop-blur-3xl rounded-[3rem] border border-white shadow-2xl p-10">
+            <div className="flex flex-col space-y-8">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.url}
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-lg font-bold text-gray-800 border-b border-gray-50 pb-2"
+                  className="text-lg font-black uppercase tracking-widest text-gray-800 hover:text-blue-600 transition-all flex items-center justify-between"
                 >
                   {link.name}
-                </a>
+                  <ArrowRight className="h-5 w-5 opacity-20" />
+                </Link>
               ))}
-              <div className="grid grid-cols-2 gap-3 pt-4">
-                <a href="#services" className="text-center py-3 bg-blue-600 text-white rounded-xl font-bold text-sm">Agency</a>
-                <a href="#contact" className="text-center py-3 liquid-glass-btn text-blue-600 rounded-xl font-bold text-sm">Hire Me</a>
-              </div>
             </div>
           </div>
-        )}
+        </div>
       </nav>
     </>
   );
