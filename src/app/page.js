@@ -1,6 +1,7 @@
 import AboutSection from "@/components/About";
 import AgencyServicesSection from "@/components/AgencyServices.jsx";
 import ContactSection from "@/components/Contact.jsx";
+import EducationSection from "@/components/Education";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
 import ProjectsSection from "@/components/Projects";
@@ -15,17 +16,13 @@ export default function Home() {
       
       <HeroSection />
       <AboutSection />
+       <EducationSection/>
       <SkillsSection />
       <ProjectsSection />
       <AgencyServicesSection />
       <TestimonialsSection />
       <WorkflowSection />
-      <a href="#contact">
         <ContactSection />
-      </a>
-
-      {/* Scroll To Top Button added here */}
-      <ScrollToTop />
     </div>
   );
 }

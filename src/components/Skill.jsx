@@ -76,14 +76,14 @@ const SKILL_DATA = [
         title: "Software Engineering",
         description: "Crafting clean, maintainable code with a strong emphasis on data structures and efficient algorithms.",
         color: "indigo",
-        skills: ["JavaScript ES6+", "TypeScript", "Python", "Logic Design"],
+        skills: ["JavaScript ES6+", "C Programming", "C++", "DSA"],
     },
     {
         icon: Database,
         title: "Database Management",
         description: "Designing optimized schemas and managing data persistence across SQL and NoSQL environments.",
         color: "emerald",
-        skills: ["MongoDB", "PostgreSQL", "Redis", "Firebase"],
+        skills: ["MongoDB", "Redis", "Firebase"],
     },
     {
         icon: Cloud,
