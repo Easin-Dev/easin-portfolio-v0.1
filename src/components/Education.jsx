@@ -34,10 +34,10 @@ const EDUCATION = [
     },
     {
         degree: "Secondary School Certificate (SSC)",
-        institution: "Tejgaon Govt. High School",
+        institution: "Jhalakathi NS Kamil Madrasah",
         duration: "2020 - 2022",
         description: "Built a solid foundation in science and mathematics during the secondary school years.",
-        portal: "#",
+        portal: "https://www.nskamil.com/",
         imageUrl: "https://i.postimg.cc/D0SqgxnQ/25289272-2044570952496350-202333745789792376-n2.jpg",
         accent: "bg-purple-600"
     }
@@ -47,7 +47,7 @@ const CERTIFICATIONS = [
     {
         title: "Complete Web Development",
         platform: "Programming Hero",
-        year: "2024",
+        year: "2023",
         link: "https://web.programming-hero.com/home",
         skills: ["HTML", "CSS", "JS", "React", "Node.js", "Tailwind", "Express", "MongoDB", "Next.js"],
         icon: <Code2 size={20} className="text-emerald-500" />
